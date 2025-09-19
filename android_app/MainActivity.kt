@@ -1,4 +1,4 @@
-package com.example.yourprojectname
+package com.example.Campusone
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
