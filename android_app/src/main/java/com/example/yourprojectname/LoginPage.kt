@@ -1,1 +1,104 @@
-package com.example.yourprojectname\n\nimport androidx.compose.foundation.clickable\nimport androidx.compose.foundation.layout.*\nimport androidx.compose.foundation.text.KeyboardOptions\nimport androidx.compose.material.icons.Icons\nimport androidx.compose.material.icons.filled.Lock\nimport androidx.compose.material.icons.filled.Visibility\nimport androidx.compose.material.icons.filled.VisibilityOff\nimport androidx.compose.material3.*\nimport androidx.compose.runtime.*\nimport androidx.compose.ui.Alignment\nimport androidx.compose.ui.Modifier\nimport androidx.compose.ui.text.input.KeyboardType\nimport androidx.compose.ui.text.input.PasswordVisualTransformation\nimport androidx.compose.ui.text.input.VisualTransformation\nimport androidx.compose.ui.tooling.preview.Preview\nimport androidx.compose.ui.unit.dp\nimport com.example.yourprojectname.ui.theme.YourProjectNameTheme\n\n@OptIn(ExperimentalMaterial3Api::class)\n@Composable\nfun LoginPage(onLoginClick: (String, String) -> Unit, onForgotPasswordClick: () -> Unit) {\n    var email by remember { mutableStateOf(\"\") }\n    var password by remember { mutableStateOf(\"\") }\n    var showPassword by remember { mutableStateOf(false) }\n    var isLoading by remember { mutableStateOf(false) } // Simulate loading state\n\n    Column(\n        modifier = Modifier\n            .fillMaxSize()\n            .padding(24.dp),\n        horizontalAlignment = Alignment.CenterHorizontally,\n        verticalArrangement = Arrangement.Center\n    ) {\n        Text(\n            text = \"Sign In\",\n            style = MaterialTheme.typography.headlineLarge,\n            modifier = Modifier.padding(bottom = 32.dp)\n        )\n\n        OutlinedTextField(\n            value = email,\n            onValueChange = { email = it },\n            label = { Text(\"Email\") },\n            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),\n            modifier = Modifier.fillMaxWidth()\n        )\n\n        Spacer(modifier = Modifier.height(16.dp))\n\n        OutlinedTextField(\n            value = password,\n            onValueChange = { password = it },\n            label = { Text(\"Password\") },\n            visualTransformation = if (showPassword) VisualTransformation.None else PasswordVisualTransformation(),\n            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),\n            trailingIcon = {\n                val image = if (showPassword)\n                    Icons.Filled.Visibility\n                else Icons.Filled.VisibilityOff\n                IconButton(onClick = { showPassword = !showPassword }) {\n                    Icon(imageVector = image, contentDescription = if (showPassword) \"Hide password\" else \"Show password\")\n                }\n            },\n            leadingIcon = {\n                Icon(imageVector = Icons.Filled.Lock, contentDescription = \"Password icon\")\n            },\n            modifier = Modifier.fillMaxWidth()\n        )\n\n        Spacer(modifier = Modifier.height(24.dp))\n\n        Button(\n            onClick = {\n                isLoading = true\n                // Simulate API call\n                // In a real app, you'd call your actual login function here\n                onLoginClick(email, password)\n                // Assuming login is quick for this example, reset loading after a delay\n                // In a real app, isLoading would be set to false after API response\n                // Handler(Looper.getMainLooper()).postDelayed({ isLoading = false }, 1000)\n            },\n            modifier = Modifier.fillMaxWidth().height(50.dp),\n            enabled = !isLoading\n        ) {\n            if (isLoading) {\n                CircularProgressIndicator(color = MaterialTheme.colorScheme.onPrimary, modifier = Modifier.size(24.dp))\n            } else {\n                Text(\"Sign In\", style = MaterialTheme.typography.titleMedium)\n            }\n        }\n\n        Spacer(modifier = Modifier.height(16.dp))\n\n        Text(\n            text = \"Forgot your password?\",\n            color = MaterialTheme.colorScheme.primary,\n            modifier = Modifier.clickable { onForgotPasswordClick() }\n        )\n    }\n}\n\n@Preview(showBackground = true)\n@Composable\nfun PreviewLoginPage() {\n    YourProjectNameTheme {\n        LoginPage(onLoginClick = { email, pass ->\n            println(\"Login attempt with: \$email / \$pass\")\n        }, onForgotPasswordClick = {\n            println(\"Forgot password clicked!\")\n        })\n    }\n}\n
+package com.example.yourprojectname
+
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material3.*\nimport androidx.compose.runtime.*\nimport androidx.compose.ui.Alignment\nimport androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation\nimport androidx.compose.ui.tooling.preview.Preview\nimport androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.yourprojectname.data.AppDatabase
+import com.example.yourprojectname.ui.theme.YourProjectNameTheme
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun LoginPage(onForgotPasswordClick: () -> Unit) {
+    val context = androidx.compose.ui.platform.LocalContext.current
+    val userDao = remember { AppDatabase.getDatabase(context).userDao() }
+    val loginViewModel: LoginViewModel = viewModel(factory = LoginViewModel.Factory(userDao))
+
+    var email by remember { mutableStateOf(\"\") }
+    var password by remember { mutableStateOf(\"\") }
+    var showPassword by remember { mutableStateOf(false) }
+
+    val isLoading by loginViewModel.isLoading.collectAsState()
+    val loginError by loginViewModel.loginError.collectAsState()
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(24.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(
+            text = \"Sign In\",
+            style = MaterialTheme.typography.headlineLarge,
+            modifier = Modifier.padding(bottom = 32.dp)
+        )
+
+        OutlinedTextField(
+            value = email,
+            onValueChange = { email = it },
+            label = { Text(\"Email\") },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        OutlinedTextField(
+            value = password,
+            onValueChange = { password = it },
+            label = { Text(\"Password\") },
+            visualTransformation = if (showPassword) VisualTransformation.None else PasswordVisualTransformation(),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+            trailingIcon = {\n                val image = if (showPassword)\n                    Icons.Filled.Visibility\n                else Icons.Filled.VisibilityOff\n                IconButton(onClick = { showPassword = !showPassword }) {\n                    Icon(imageVector = image, contentDescription = if (showPassword) \"Hide password\" else \"Show password\")\n                }\n            },\n            leadingIcon = {\n                Icon(imageVector = Icons.Filled.Lock, contentDescription = \"Password icon\")\n            },\n            modifier = Modifier.fillMaxWidth()
+        )
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        Button(
+            onClick = { loginViewModel.login(email, password) },
+            modifier = Modifier.fillMaxWidth().height(50.dp),
+            enabled = !isLoading
+        ) {
+            if (isLoading) {
+                CircularProgressIndicator(color = MaterialTheme.colorScheme.onPrimary, modifier = Modifier.size(24.dp))
+            } else {
+                Text(\"Sign In\", style = MaterialTheme.typography.titleMedium)
+            }
+        }
+
+        loginError?.let { message ->
+            Text(
+                text = message,
+                color = MaterialTheme.colorScheme.error,
+                modifier = Modifier.padding(top = 8.dp)
+            )
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Text(
+            text = \"Forgot your password?\",
+            color = MaterialTheme.colorScheme.primary,
+            modifier = Modifier.clickable { onForgotPasswordClick() }
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewLoginPage() {
+    YourProjectNameTheme {
+        LoginPage(onForgotPasswordClick = {
+            println(\"Forgot password clicked!\")
+        })
+    }
+}
