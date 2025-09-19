@@ -1,16 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Toaster } from '@/components/ui/toaster'
 import { Toaster as Sonner } from '@/components/ui/sonner'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { trackPageView } from '@/lib/analytics'
+import { supabase } from '@/lib/supabase'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
-import {
-  SignedIn,
-  SignedOut,
-  SignInButton,
-  UserButton,
-} from '@clerk/clerk-react'
 
 // Pages and Layouts
 import NotFound from './pages/NotFound'
@@ -18,18 +13,14 @@ import LoginPage from './components/LoginPage'
 import SignUpPage from './components/SignUpPage'
 import { DashboardLayout } from './components/DashboardLayout'
 import { AppSidebar } from './components/AppSidebar'
-import AdminDashboard from './pages/AdminDashboard'
 
 // Admin Components
-import Admissions from './components/admin/admissions'
-import Fees from './components/admin/fees'
-import Hostel from './components/admin/hostel'
-import Exams from './components/admin/exams'
-import Attendance from './components/admin/attendance'
-import Analytics from './components/admin/analytics'
-import Notifications from './components/admin/notifications'
-import Settings from './components/admin/settings'
-
+import { AdminDashboard } from './components/admin/Dashboard'
+import AdmissionApprovals from './components/admin/AdmissionApprovals'
+import FeeManagement from './components/admin/FeeManagement'
+import HostelAllocation from './components/admin/HostelAllocation'
+import ExamResultsUpload from './components/ExamResultsUpload'
+import AttendanceMarkingInterface from './components/AttendanceMarkingInterface'
 
 // Student Components
 import StudentDashboard from './pages/StudentDashboard'
@@ -39,24 +30,36 @@ import HostelAllocationPanel from './components/HostelAllocationPanel'
 const queryClient = new QueryClient()
 
 const App: React.FC = () => {
+  useEffect(() => {
+    // Track initial page view
+    trackPageView(window.location.pathname)
+
+    // Set up auth listener
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_IN') {
+        console.log('User signed in:', session?.user)
+      } else if (event === 'SIGNED_OUT') {
+        window.location.href = '/login'
+      }
+    })
+
+    return () => {
+      subscription.unsubscribe()
+    }
+  }, [])
+
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Toaster />
         <Sonner />
-        <header className="fixed top-0 left-0 right-0 p-4 flex justify-end items-center bg-white shadow-sm z-50">
-          <SignedOut>
-            <SignInButton mode="modal" />
-          </SignedOut>
-          <SignedIn>
-            <UserButton afterSignOutUrl="/" />
-          </SignedIn>
-        </header>
         <BrowserRouter>
           <Routes>
             {/* Public Routes */}
             <Route path="/login" element={<LoginPage />} />
-            <Route path="/sign-up" element={<SignUpPage />} />
+            <Route path="/signup" element={<SignUpPage />} />
 
             {/* Admin Routes */}
             <Route
@@ -67,26 +70,14 @@ const App: React.FC = () => {
                 >
                   <Routes>
                     <Route index element={<AdminDashboard />} />
-                    <Route path="admissions" element={<Admissions />} />
-                    <Route path="fees" element={<Fees />} />
-                    <Route path="hostel" element={<Hostel />} />
-                    <Route path="exams" element={<Exams />} />
-                    <Route
-                      path="attendance"
-                      element={<Attendance />}
-                    />
-                    <Route
-                      path="analytics"
-                      element={<Analytics />}
-                    />
-                    <Route
-                      path="notifications"
-                      element={<Notifications />}
-                    />
-                    <Route
-                      path="settings"
-                      element={<Settings />}
-                    />
+                    <Route path="admissions" element={<AdmissionApprovals />} />
+                    <Route path="fees" element={<FeeManagement />} />
+                    <Route path="hostel" element={<HostelAllocation />} />
+                    <Route path="exams" element={<ExamResultsUpload />} />
+                    <Route path="attendance" element={<AttendanceMarkingInterface />} />
+                    <Route path="analytics" element={<div>Analytics Dashboard</div>} />
+                    <Route path="notifications" element={<div>Notifications</div>} />
+                    <Route path="settings" element={<div>Settings & Roles</div>} />
                   </Routes>
                 </DashboardLayout>
               }
@@ -103,16 +94,10 @@ const App: React.FC = () => {
                     <Route index element={<StudentDashboard />} />
                     <Route path="admission" element={<AdmissionForm />} />
                     <Route path="hostel" element={<HostelAllocationPanel />} />
-                    <Route path="results" element={<Exams />} />
-                    <Route
-                      path="attendance"
-                      element={<Attendance />}
-                    />
-                    <Route
-                      path="notifications"
-                      element={<Notifications />}
-                    />
-                    <Route path="settings" element={<Settings />} />
+                    <Route path="results" element={<ExamResultsUpload />} />
+                    <Route path="attendance" element={<AttendanceMarkingInterface />} />
+                    <Route path="notifications" element={<div>Notifications</div>} />
+                    <Route path="settings" element={<div>Settings</div>} />
                   </Routes>
                 </DashboardLayout>
               }

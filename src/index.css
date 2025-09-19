@@ -1,119 +1,99 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 /* College ERP Design System - Educational Theme with Teal & Navy */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap');
-
 @layer base {
   :root {
     /* Educational Brand Colors */
-    --primary: 174 91% 33%; /* Teal #0FB5A4 */
+    --primary: 174 91% 33%;
+    /* Teal #0FB5A4 */
     --primary-foreground: 0 0% 100%;
     --primary-hover: 174 91% 28%;
-    
-    --secondary: 212 83% 53%; /* Blue #1E88E5 */
+
+    --secondary: 212 83% 53%;
+    /* Blue #1E88E5 */
     --secondary-foreground: 0 0% 100%;
     --secondary-hover: 212 83% 48%;
-    
-    --accent: 194 59% 86%; /* Light Blue #BEE3F8 */
-    --accent-foreground: 216 100% 19%;
-    
-    --navy: 216 100% 32%; /* Navy Blue #0B3D91 */
-    --navy-foreground: 0 0% 100%;
-    
-    /* Neutral Palette */
+
+    --accent: 194 59% 86%;
+    /* Light Blue #BEE3F8 */
+    --accent-foreground: 216 15% 23%;
+    /* Dark Gray #2D3748 */
+
     --background: 0 0% 100%;
-    --foreground: 214 100% 19%; /* Dark Navy for text */
-    
+    /* White */
+    --foreground: 216 15% 23%;
+    /* Dark Gray */
+
     --card: 0 0% 100%;
-    --card-foreground: 214 100% 19%;
-    --card-shadow: 216 33% 97%;
-    
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215 15% 47%;
-    
-    --border: 210 40% 92%;
-    --input: 210 40% 96%;
-    --ring: 174 91% 33%;
-    
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 98%;
-    
-    --success: 142 71% 45%;
-    --success-foreground: 0 0% 98%;
-    
-    --warning: 38 92% 50%;
-    --warning-foreground: 0 0% 98%;
-    
-    /* Educational Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary)));
-    --gradient-hero: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary)), hsl(var(--accent)));
-    --gradient-card: linear-gradient(145deg, hsl(var(--card)), hsl(var(--accent) / 0.1));
-    
-    /* Shadows & Elevation */
-    --shadow-soft: 0 6px 18px hsla(216, 33%, 33%, 0.08);
-    --shadow-card: 0 4px 16px hsla(216, 33%, 33%, 0.06);
-    --shadow-elevated: 0 8px 32px hsla(216, 33%, 33%, 0.12);
-    
-    /* Radius System */
-    --radius: 12px;
+    /* White */
+    --card-foreground: 216 15% 23%;
+    /* Dark Gray */
+
+    --popover: 0 0% 100%;
+    /* White */
+    --popover-foreground: 216 15% 23%;
+    /* Dark Gray */
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 216 15% 23%;
+
+    --radius: 0.5rem;
+    /* Default radius, can be overridden by 2xl and xl */
     --radius-card: 16px;
-    --radius-button: 12px;
+    --radius-input: 12px;
 
-    --sidebar-background: 0 0% 98%;
+    /* Custom Colors */
+    --teal: 174 91% 33%;
+    /* #0FB5A4 */
+    --blue: 212 83% 53%;
+    /* #1E88E5 */
+    --light-blue: 194 59% 86%;
+    /* #BEE3F8 */
+    --navy-blue: 220 79% 31%;
+    /* #0B3D91 */
+    --dark-gray: 216 15% 23%;
+    /* #2D3748 */
+    --soft-gray: 210 16% 95%;
+    /* #EDF2F7 */
 
-    --sidebar-foreground: 240 5.3% 26.1%;
+    --success: 120 60% 40%;
+    /* Example success color */
+    --warning: 40 89% 57%;
+    /* Example warning color */
 
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Elevation */
+    --shadow-subtle: 0 6px 18px rgba(3, 12, 33, 0.08);
   }
 
   .dark {
-    --background: 216 100% 6%;
-    --foreground: 0 0% 98%;
-    
-    --primary: 174 91% 33%;
-    --primary-foreground: 0 0% 100%;
-    
-    --secondary: 212 83% 53%;
-    --secondary-foreground: 0 0% 100%;
-    
-    --accent: 216 33% 25%;
-    --accent-foreground: 194 59% 86%;
-    
-    --navy: 216 100% 32%;
-    --navy-foreground: 0 0% 100%;
-    
-    --card: 216 100% 8%;
-    --card-foreground: 0 0% 95%;
-    --card-shadow: 216 100% 4%;
-    
-    --muted: 216 33% 15%;
-    --muted-foreground: 210 20% 65%;
-    
-    --border: 216 33% 20%;
-    --input: 216 33% 15%;
-    --ring: 174 91% 33%;
-    
-    --sidebar-background: 216 100% 6%;
-    --sidebar-foreground: 0 0% 95%;
-    --sidebar-primary: 174 91% 33%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 216 33% 15%;
-    --sidebar-accent-foreground: 0 0% 95%;
-    --sidebar-border: 216 33% 20%;
-    --sidebar-ring: 174 91% 33%;
+    --background: 224 71% 4%;
+    --foreground: 213 31% 91%;
+    --card: 224 71% 4%;
+    --card-foreground: 213 31% 91%;
+    --popover: 224 71% 4%;
+    --popover-foreground: 213 31% 91%;
+    --border: 216 34% 17%;
+    --input: 216 34% 17%;
+    --ring: 216 34% 17%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.4% 91.2%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 217.2 32.4% 91.2%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.4% 91.2%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 216 34% 17%;
+    --input: 216 34% 17%;
+    --ring: 216 34% 17%;
   }
 }
 
@@ -123,59 +103,55 @@
   }
 
   body {
-    @apply bg-background text-foreground font-inter antialiased;
+    @apply bg-background text-foreground text-base;
+    font-family: "Inter", sans-serif;
+    /* Apply Inter as base font */
   }
-  
-  /* Typography */
-  .font-heading {
-    font-family: 'Poppins', system-ui, sans-serif;
-  }
-  
-  .font-inter {
-    font-family: 'Inter', system-ui, sans-serif;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Poppins", "Inter", sans-serif;
+    /* Apply Poppins for headlines */
   }
 }
 
 @layer components {
+
   /* Educational Component Styles */
-  .erp-card {
-    @apply bg-card border border-border rounded-card p-6 shadow-soft;
+  .card {
+    @apply rounded-[var(--radius-card)] bg-card text-card-foreground shadow-[var(--shadow-subtle)] p-6;
   }
-  
-  .erp-card-elevated {
-    @apply bg-card border border-border rounded-card p-6 shadow-elevated;
+
+  .btn-primary {
+    @apply bg-primary text-primary-foreground hover:bg-primary-hover rounded-[var(--radius-input)] px-6 py-3 font-medium transition-all duration-200 shadow-[var(--shadow-subtle)];
   }
-  
-  .erp-button-primary {
-    @apply bg-primary text-primary-foreground hover:bg-primary-hover rounded-button px-6 py-3 font-medium transition-all duration-200 shadow-card hover:shadow-elevated;
+
+  .btn-secondary {
+    @apply border border-secondary text-secondary hover:bg-secondary-hover hover:text-secondary-foreground rounded-[var(--radius-input)] px-6 py-3 font-medium transition-all duration-200;
   }
-  
-  .erp-button-secondary {
-    @apply bg-secondary text-secondary-foreground hover:bg-secondary-hover rounded-button px-6 py-3 font-medium transition-all duration-200;
+
+  .input {
+    @apply bg-input border border-border rounded-[var(--radius-input)] px-4 py-3 text-foreground placeholder:text-muted-foreground focus:ring-2 focus:ring-ring focus:border-ring transition-all duration-200;
   }
-  
-  .erp-button-navy {
-    @apply bg-navy text-navy-foreground hover:opacity-90 rounded-button px-6 py-3 font-medium transition-all duration-200;
-  }
-  
-  .erp-input {
-    @apply bg-input border border-border rounded-radius px-4 py-3 text-foreground placeholder:text-muted-foreground focus:ring-2 focus:ring-ring focus:border-ring transition-all duration-200;
-  }
-  
-  .erp-gradient-text {
+
+  .gradient-text {
     @apply bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent;
   }
-  
-  .erp-status-approved {
-    @apply bg-success/10 text-success border border-success/20 rounded-full px-3 py-1 text-sm font-medium;
+
+  .status-approved {
+    @apply bg-emerald-100 text-emerald-700 border border-emerald-200 rounded-full px-3 py-1 text-sm font-medium;
   }
-  
-  .erp-status-pending {
-    @apply bg-warning/10 text-warning border border-warning/20 rounded-full px-3 py-1 text-sm font-medium;
+
+  .status-pending {
+    @apply bg-amber-100 text-amber-700 border border-amber-200 rounded-full px-3 py-1 text-sm font-medium;
   }
-  
-  .erp-status-rejected {
-    @apply bg-destructive/10 text-destructive border border-destructive/20 rounded-full px-3 py-1 text-sm font-medium;
+
+  .status-rejected {
+    @apply bg-red-100 text-red-700 border border-red-200 rounded-full px-3 py-1 text-sm font-medium;
   }
 }
 
@@ -183,22 +159,36 @@
   .animate-fade-in {
     animation: fadeIn 0.5s ease-out;
   }
-  
+
   .animate-slide-up {
     animation: slideUp 0.4s ease-out;
   }
-  
+
   .hover-lift {
-    @apply transition-transform duration-200 hover:-translate-y-1 hover:shadow-elevated;
+    @apply transition-transform duration-200 hover:-translate-y-1 shadow-[var(--shadow-subtle)];
   }
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes slideUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
