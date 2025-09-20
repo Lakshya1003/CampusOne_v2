@@ -1,5 +1,5 @@
 import { Credentials, App } from 'realm-web'
-import * as bcrypt from 'bcrypt'
+import * as bcrypt from 'bcryptjs';
 
 const APP_ID = import.meta.env.VITE_MONGODB_APP_ID
 const API_KEY = import.meta.env.VITE_MONGODB_API_KEY
@@ -20,6 +20,7 @@ const Collections = {
   HOSTEL: 'hostel',
   EXAMS: 'exams',
   ATTENDANCE: 'attendance',
+  STUDENTS: 'students',
 } as const
 
 // Get a valid Realm user access token
@@ -53,6 +54,7 @@ export const db = {
   hostel: () => getCollection(Collections.HOSTEL),
   exams: () => getCollection(Collections.EXAMS),
   attendance: () => getCollection(Collections.ATTENDANCE),
+  students: () => getCollection(Collections.STUDENTS),
 }
 
 // Helper functions for auth
@@ -119,11 +121,9 @@ export async function verifyUser({
   return { id: user._id, email: user.email, role: user.role }
 }
 
-// Helper function to hash password (you'll need to install bcrypt)
 async function hashPassword(password: string): Promise<string> {
-  const bcrypt = require('bcrypt')
-  const salt = await bcrypt.genSalt(10)
-  return bcrypt.hash(password, salt)
+  const salt = await bcrypt.genSalt(10);
+  return bcrypt.hash(password, salt);
 }
 
 // Helper function to verify password
@@ -131,6 +131,5 @@ async function verifyPassword(
   password: string,
   hashedPassword: string
 ): Promise<boolean> {
-  const bcrypt = require('bcrypt')
-  return bcrypt.compare(password, hashedPassword)
+  return bcrypt.compare(password, hashedPassword);
 }

@@ -48,12 +48,8 @@ export default function LoginPage() {
         description: 'You have been successfully logged in.',
       })
 
-      // Redirect based on user role
-      if (user.role === 'admin') {
-        window.location.href = '/admin'
-      } else {
-        window.location.href = '/student'
-      }
+      // Redirect to student dashboard
+      window.location.href = '/student'
     } catch (error: any) {
       toast({
         title: 'Login Failed',

@@ -4,7 +4,7 @@ import { Toaster as Sonner } from '@/components/ui/sonner'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { trackPageView } from '@/lib/analytics'
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import {
   SignedIn,
   SignedOut,
@@ -39,6 +39,7 @@ import HostelAllocationPanel from './components/HostelAllocationPanel'
 const queryClient = new QueryClient()
 
 const App: React.FC = () => {
+
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>

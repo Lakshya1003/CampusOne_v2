@@ -15,6 +15,7 @@ import {
   Receipt,
   BedDouble,
   ClipboardCheck,
+  GitGraphIcon,
 } from 'lucide-react'
 
 interface AppSidebarProps {
@@ -54,7 +55,11 @@ const adminItems = [
   { title: 'Fee Management', url: '/admin/fees', icon: DollarSign },
   { title: 'Hostel Allocation', url: '/admin/hostel', icon: Building },
   { title: 'Exam Results', url: '/admin/exams', icon: FileText },
-  { title: 'Attendance', url: '/admin/attendance', icon: Calendar },
+  {
+    title: 'Attendance',
+    url: '/admin/attendance',
+    icon: Calendar,
+  },
   { title: 'Analytics', url: '/admin/analytics', icon: BarChart3 },
   { title: 'Notifications', url: '/admin/notifications', icon: Bell },
   { title: 'Settings & Roles', url: '/admin/settings', icon: Settings },
@@ -64,10 +69,15 @@ const adminItems = [
 const studentItems = [
   { title: 'Dashboard', url: '/student', icon: Home },
   { title: 'Admission Form', url: '/student/admission', icon: GraduationCap },
-  { title: 'Fee Payment', url: '/student/fees', icon: Receipt },
+  { title: 'Fee Payment', url: '/admin/fees', icon: Receipt },
   { title: 'Hostel Application', url: '/student/hostel', icon: BedDouble },
   { title: 'Exam Results', url: '/student/results', icon: FileText },
-  { title: 'Attendance', url: '/student/attendance', icon: ClipboardCheck },
+  {
+    title: 'Attendance',
+    url: '/student/attandeance',
+    icon: ClipboardCheck,
+  },
+  { title: 'Analytics', url: '/admin/analytics', icon: GitGraphIcon },
   { title: 'Notifications', url: '/student/notifications', icon: Bell },
   { title: 'Settings', url: '/student/settings', icon: Settings },
 ]

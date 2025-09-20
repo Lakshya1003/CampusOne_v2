@@ -62,6 +62,12 @@ export const events = {
 
   // Feature usage
   FEATURE_INTERACTION: 'feature_interaction',
+  EXAM_RESULT_UPLOAD: 'exam_result_upload',
+  // Admission events
+  ADMISSION_CREATED: 'admission_created',
+
+  // Attendance events
+  ATTENDANCE_MARKED: 'attendance_marked',
 }
 
 // Categories
@@ -122,6 +128,14 @@ export const trackFeatureUsage = (feature: string, action: string) => {
     events.FEATURE_INTERACTION,
     `${feature}:${action}`
   )
+}
+
+export const trackExamUpload = (subject: string, marks: number) => {
+  trackEvent(categories.FEATURES, events.EXAM_RESULT_UPLOAD, subject, marks)
+}
+
+export const trackAdmissionCreated = (course: string) => {
+  trackEvent(categories.FEATURES, events.ADMISSION_CREATED, course)
 }
 
 export default {
